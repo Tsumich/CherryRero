@@ -63,4 +63,12 @@ public class MusicThread extends Thread{
 
     }
 
+    public void stopPlay() {
+        try{
+            is.close();
+            System.out.println("Stop radio");
+        }catch (Exception ignored){
+
+        }
+    }
 }
