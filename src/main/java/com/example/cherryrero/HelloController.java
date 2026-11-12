@@ -34,4 +34,9 @@ public class HelloController {
     }
 
 
+    public void playAudio(ActionEvent actionEvent) {
+    }
+
+    public void nextAudio(ActionEvent actionEvent) {
+    }
 }
