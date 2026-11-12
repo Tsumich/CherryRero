@@ -13,6 +13,6 @@
     </padding>
 
     <TextField fx:id="urlLink" prefWidth="200.0" promptText="Укажите url радио"/>
-    <Button text="Hello!" onAction="#playRadio"/>
-    <Button fx:id="pause" text="→" prefWidth="60.0" onAction="#pauseAudio"/>
+    <Button text="PLAY" onAction="#playRadio"/>
+    <Button fx:id="pause" text="pause" prefWidth="60.0" onAction="#pauseAudio"/>
 </VBox>
