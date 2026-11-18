@@ -16,7 +16,7 @@ public class HelloController {
 
     public HelloController() throws IOException {
         t = new MusicThread();
-        t.start();
+//        t.start();
         System.out.println("иниц контроллера");
     }
 
@@ -30,8 +30,9 @@ public class HelloController {
     protected void playAudio(){
         if(!urlLink.getText().isEmpty()){
             isRadio = true;
-            t.setRadioUrl(urlLink.getText());
-            t.play();
+            t.play(urlLink.getText());
+//            t.setRadioUrl(urlLink.getText());
+//            t.play();
             songTitle.setText("Играет радио");
         }
     }
@@ -39,7 +40,7 @@ public class HelloController {
 
     public void pauseAudio(){
         if(isRadio){
-            t.setRadioUrl(null);
+//            t.setRadioUrl(null);
             t.stopPlay();
         }
 

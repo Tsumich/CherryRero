@@ -2,6 +2,7 @@ module com.example.cherryrero {
     requires javafx.controls;
     requires javafx.fxml;
     requires jlayer;
+    requires javafx.media;
     requires static  lombok;
 
 
