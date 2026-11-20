@@ -1,0 +1,273 @@
+Index: src/main/java/resources/com/example/cherryrero/main.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<?import javafx.geometry.Rectangle2D?>\r\n\r\n<?import javafx.geometry.Insets?>\r\n<?import javafx.scene.control.Button?>\r\n<?import javafx.scene.control.ComboBox?>\r\n<?import javafx.scene.control.Label?>\r\n<?import javafx.scene.control.SplitPane?>\r\n<?import javafx.scene.control.TextArea?>\r\n<?import javafx.scene.image.Image?>\r\n<?import javafx.scene.image.ImageView?>\r\n<?import javafx.scene.layout.BorderPane?>\r\n<?import javafx.scene.layout.HBox?>\r\n<?import javafx.scene.layout.StackPane?>\r\n<?import javafx.scene.layout.VBox?>\r\n\r\n<?import javafx.geometry.Rectangle2D?>\r\n<BorderPane xmlns:fx=\"http://javafx.com/fxml\"\r\n            fx:controller=\"com.example.cherryrero.MainController\">\r\n\r\n    <top>\r\n        <fx:include source=\"menu.fxml\"/>\r\n    </top>\r\n\r\n    <center>\r\n        <SplitPane dividerPositions=\"0.6\">\r\n\r\n            <VBox alignment=\"CENTER\" spacing=\"20.0\">\r\n                <padding>\r\n                    <Insets bottom=\"20.0\" left=\"20.0\" right=\"20.0\" top=\"20.0\"/>\r\n                </padding>\r\n\r\n                <HBox alignment=\"CENTER_LEFT\" spacing=\"10.0\">\r\n                    <ComboBox fx:id=\"urlLink\"\r\n                              editable=\"true\"\r\n                              promptText=\"Укажите url радио\"\r\n                              HBox.hgrow=\"ALWAYS\"\r\n                              maxWidth=\"Infinity\"/>\r\n                    <Button fx:id=\"playButton\"\r\n                            text=\"▶\"\r\n                            prefWidth=\"40.0\"\r\n                            minWidth=\"40.0\"\r\n                            maxWidth=\"40.0\"\r\n                            onAction=\"#playAudio\"/>\r\n                </HBox>\r\n\r\n                <StackPane fx:id=\"imageContainer\"\r\n                           prefWidth=\"200.0\" prefHeight=\"200.0\" maxWidth=\"200.0\" maxHeight=\"200.0\">\r\n                    <!-- Убрали фон и рамку, чтобы не было окошка -->\r\n                    <ImageView fx:id=\"currentProduct\" pickOnBounds=\"true\" preserveRatio=\"false\"\r\n                               fitHeight=\"200.0\" fitWidth=\"200.0\">\r\n                        <Image url=\"@/cat.jpeg\"/>\r\n                    </ImageView>\r\n                </StackPane>\r\n\r\n                <Label fx:id=\"songTitle\" text=\"Без названия - Неизвестен\"\r\n                       style=\"-fx-text-fill: #000; -fx-font-size: 16px;\"/>\r\n\r\n                <HBox alignment=\"CENTER\" spacing=\"15.0\">\r\n                    <Button fx:id=\"pauseButton\" text=\"⏸ Пауза\" prefWidth=\"100.0\" onAction=\"#pauseAudio\"/>\r\n                    <Button fx:id=\"nextButton\" text=\"⏭ Следующее\" prefWidth=\"120.0\" onAction=\"#nextAudio\"/>\r\n                </HBox>\r\n            </VBox>\r\n\r\n            <VBox spacing=\"10.0\">\r\n                <padding>\r\n                    <Insets bottom=\"20.0\" left=\"20.0\" right=\"20.0\" top=\"20.0\"/>\r\n                </padding>\r\n                <Label text=\"Плейлист\"/>\r\n                <TextArea fx:id=\"infoArea\" VBox.vgrow=\"ALWAYS\" editable=\"false\" wrapText=\"true\"/>\r\n            </VBox>\r\n\r\n        </SplitPane>\r\n    </center>\r\n\r\n</BorderPane>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/resources/com/example/cherryrero/main.fxml b/src/main/java/resources/com/example/cherryrero/main.fxml
+--- a/src/main/java/resources/com/example/cherryrero/main.fxml	(revision a2d6045a6b7912b83188b344912e20ef88f5c674)
++++ b/src/main/java/resources/com/example/cherryrero/main.fxml	(date 1795189110864)
+@@ -15,38 +15,40 @@
+ <?import javafx.scene.layout.VBox?>
+ 
+ <?import javafx.geometry.Rectangle2D?>
++<?import javafx.scene.control.ListView?>
++<?import javafx.scene.control.MenuBar?>
++<?import javafx.scene.control.Menu?>
++<?import javafx.scene.control.MenuItem?>
++<?import javafx.scene.control.CheckMenuItem?>
++<?import javafx.scene.control.TabPane?>
++<?import javafx.scene.control.Tab?>
++
+ <BorderPane xmlns:fx="http://javafx.com/fxml"
+             fx:controller="com.example.cherryrero.MainController">
+ 
+     <top>
+-        <fx:include source="menu.fxml"/>
++        <MenuBar>
++            <Menu text="Файл">
++                <MenuItem text="Указать путь к папке с музыкой..." onAction="#chooseFolder"/>
++                <MenuItem text="Просмотреть логи" onAction="#openLogsWindow"/>
++            </Menu>
++            <Menu text="Вид">
++                <CheckMenuItem fx:id="showLogsCheckItem" text="Отображать логи в приложении" onAction="#toggleLogsPanel"/>
++            </Menu>
++        </MenuBar>
+     </top>
+ 
+     <center>
+         <SplitPane dividerPositions="0.6">
+ 
++            <!-- ЛЕВАЯ ЧАСТЬ (Плеер) -->
+             <VBox alignment="CENTER" spacing="20.0">
+                 <padding>
+                     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                 </padding>
+ 
+-                <HBox alignment="CENTER_LEFT" spacing="10.0">
+-                    <ComboBox fx:id="urlLink"
+-                              editable="true"
+-                              promptText="Укажите url радио"
+-                              HBox.hgrow="ALWAYS"
+-                              maxWidth="Infinity"/>
+-                    <Button fx:id="playButton"
+-                            text="▶"
+-                            prefWidth="40.0"
+-                            minWidth="40.0"
+-                            maxWidth="40.0"
+-                            onAction="#playAudio"/>
+-                </HBox>
+-
+                 <StackPane fx:id="imageContainer"
+                            prefWidth="200.0" prefHeight="200.0" maxWidth="200.0" maxHeight="200.0">
+-                    <!-- Убрали фон и рамку, чтобы не было окошка -->
+                     <ImageView fx:id="currentProduct" pickOnBounds="true" preserveRatio="false"
+                                fitHeight="200.0" fitWidth="200.0">
+                         <Image url="@/cat.jpeg"/>
+@@ -62,15 +64,62 @@
+                 </HBox>
+             </VBox>
+ 
++            <!-- ПРАВАЯ ЧАСТЬ (Вкладки) -->
+             <VBox spacing="10.0">
+                 <padding>
+                     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                 </padding>
+-                <Label text="Плейлист"/>
+-                <TextArea fx:id="infoArea" VBox.vgrow="ALWAYS" editable="false" wrapText="true"/>
++
++                <!-- Компонент вкладок -->
++                <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
++
++                    <!-- Вкладка 1: Плейлист -->
++                    <Tab text="🎵 Плейлист">
++                        <VBox spacing="10.0">
++                            <padding>
++                                <Insets top="10.0" bottom="10.0" left="10.0" right="10.0"/>
++                            </padding>
++                            <HBox alignment="CENTER_LEFT" spacing="10.0">
++                                <Label text="Мои треки" style="-fx-font-weight: bold; -fx-font-size: 14px;" HBox.hgrow="ALWAYS"/>
++                                <Button text="📁 Папка" onAction="#chooseFolder"/>
++                            </HBox>
++                            <Label fx:id="folderPathLabel" text="Папка не выбрана" style="-fx-font-size: 11px; -fx-text-fill: #666;" wrapText="true"/>
++                            <ListView fx:id="playlistView" VBox.vgrow="ALWAYS" onMouseClicked="#onTrackSelected"/>
++                        </VBox>
++                    </Tab>
++
++                    <!-- Вкладка 2: Радио -->
++                    <Tab text="📻 Радио">
++                        <VBox spacing="15.0">
++                            <padding>
++                                <Insets top="10.0" bottom="10.0" left="10.0" right="10.0"/>
++                            </padding>
++                            <Label text="Интернет-радио" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
++                            <Label text="Введите URL станции, чтобы добавить её в историю или запустить." wrapText="true" style="-fx-font-size: 12px; -fx-text-fill: #555;"/>
++
++                            <ComboBox fx:id="urlLink"
++                                      editable="true"
++                                      promptText="Укажите url радио"
++                                      HBox.hgrow="ALWAYS"
++                                      maxWidth="Infinity"/>
++                            <Button text="▶ Включить радио" onAction="#setRadioTrue" maxWidth="Infinity"/>
++                        </VBox>
++                    </Tab>
++
++                </TabPane>
+             </VBox>
+ 
+         </SplitPane>
+     </center>
+ 
++    <bottom>
++        <VBox fx:id="logPanel" visible="false" managed="false" spacing="5.0" style="-fx-background-color: #f4f4f4; -fx-border-color: #ccc; -fx-border-width: 1 0 0 0;">
++            <padding>
++                <Insets bottom="10.0" left="15.0" right="15.0" top="8.0"/>
++            </padding>
++            <Label text="Журнал событий (логи):" style="-fx-font-weight: bold; -fx-font-size: 12px;"/>
++            <TextArea fx:id="logArea" prefHeight="100.0" editable="false" wrapText="true" style="-fx-font-family: 'Consolas', monospace; -fx-font-size: 11px;"/>
++        </VBox>
++    </bottom>
++
+ </BorderPane>
+\ No newline at end of file
+Index: src/main/java/module-info.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>module com.example.cherryrero {\r\n    requires javafx.controls;\r\n    requires javafx.fxml;\r\n    requires jlayer;\r\n    requires static  lombok;\r\n    requires java.logging;\r\n\r\n\r\n    opens com.example.cherryrero to javafx.fxml;\r\n    exports com.example.cherryrero;\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/module-info.java b/src/main/java/module-info.java
+--- a/src/main/java/module-info.java	(revision a2d6045a6b7912b83188b344912e20ef88f5c674)
++++ b/src/main/java/module-info.java	(date 1795167140491)
+@@ -1,8 +1,8 @@
+ module com.example.cherryrero {
+-    requires javafx.controls;
+-    requires javafx.fxml;
+-    requires jlayer;
++     requires jlayer;
+     requires static  lombok;
++     requires javafx.fxml;
++    requires javafx.controls;
+     requires java.logging;
+ 
+ 
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\r\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n    <modelVersion>4.0.0</modelVersion>\r\n\r\n    <groupId>com.example</groupId>\r\n    <artifactId>CherryRero</artifactId>\r\n    <version>1.0-SNAPSHOT</version>\r\n    <name>CherryRero</name>\r\n\r\n    <properties>\r\n        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\r\n        <junit.version>5.9.2</junit.version>\r\n    </properties>\r\n\r\n    <dependencies>\r\n        <dependency>\r\n            <groupId>org.projectlombok</groupId>\r\n            <artifactId>lombok</artifactId>\r\n            <version>1.18.48</version>\r\n            <scope>provided</scope>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>javazoom</groupId>\r\n            <artifactId>jlayer</artifactId>\r\n            <version>1.0.1</version>\r\n            <scope>compile</scope>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.openjfx</groupId>\r\n            <artifactId>javafx-controls</artifactId>\r\n            <version>17.0.6</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.openjfx</groupId>\r\n            <artifactId>javafx-fxml</artifactId>\r\n            <version>17.0.6</version>\r\n        </dependency>\r\n\r\n        <dependency>\r\n            <groupId>org.junit.jupiter</groupId>\r\n            <artifactId>junit-jupiter-api</artifactId>\r\n            <version>${junit.version}</version>\r\n            <scope>test</scope>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.junit.jupiter</groupId>\r\n            <artifactId>junit-jupiter-engine</artifactId>\r\n            <version>${junit.version}</version>\r\n            <scope>test</scope>\r\n        </dependency>\r\n    </dependencies>\r\n\r\n    <build>\r\n        <plugins>\r\n            <plugin>\r\n                <groupId>org.apache.maven.plugins</groupId>\r\n                <artifactId>maven-compiler-plugin</artifactId>\r\n                <version>3.11.0</version>\r\n                <configuration>\r\n                    <source>17</source>\r\n                    <target>17</target>\r\n                </configuration>\r\n            </plugin>\r\n            <plugin>\r\n                <groupId>org.openjfx</groupId>\r\n                <artifactId>javafx-maven-plugin</artifactId>\r\n                <version>0.0.8</version>\r\n                <executions>\r\n                    <execution>\r\n                        <!-- Default configuration for running with: mvn clean javafx:run -->\r\n                        <id>default-cli</id>\r\n                        <configuration>\r\n                            <mainClass>com.example.cherryrero/com.example.cherryrero.HelloApplication</mainClass>\r\n                            <launcher>app</launcher>\r\n                            <jlinkZipName>app</jlinkZipName>\r\n                            <jlinkImageName>app</jlinkImageName>\r\n                            <noManPages>true</noManPages>\r\n                            <stripDebug>true</stripDebug>\r\n                            <noHeaderFiles>true</noHeaderFiles>\r\n                        </configuration>\r\n                    </execution>\r\n                </executions>\r\n            </plugin>\r\n            <plugin>\r\n                <groupId>org.apache.maven.plugins</groupId>\r\n                <artifactId>maven-compiler-plugin</artifactId>\r\n                <configuration>\r\n                    <annotationProcessorPaths>\r\n                        <path>\r\n                            <groupId>org.projectlombok</groupId>\r\n                            <artifactId>lombok</artifactId>\r\n                            <version>1.18.48</version>\r\n                        </path>\r\n                    </annotationProcessorPaths>\r\n                </configuration>\r\n            </plugin>\r\n        </plugins>\r\n    </build>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pom.xml b/pom.xml
+--- a/pom.xml	(revision a2d6045a6b7912b83188b344912e20ef88f5c674)
++++ b/pom.xml	(date 1795161854244)
+@@ -30,12 +30,12 @@
+         <dependency>
+             <groupId>org.openjfx</groupId>
+             <artifactId>javafx-controls</artifactId>
+-            <version>17.0.6</version>
++            <version>21.0.13.1</version>
+         </dependency>
+         <dependency>
+             <groupId>org.openjfx</groupId>
+             <artifactId>javafx-fxml</artifactId>
+-            <version>17.0.6</version>
++            <version>21.0.13.1</version>
+         </dependency>
+ 
+         <dependency>
+@@ -57,43 +57,24 @@
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+-                <version>3.11.0</version>
++                <version>3.13.0</version>
+                 <configuration>
+-                    <source>17</source>
+-                    <target>17</target>
++                    <release>20</release>
++                    <annotationProcessorPaths>
++                        <path>
++                            <groupId>org.projectlombok</groupId>
++                            <artifactId>lombok</artifactId>
++                            <version>1.18.48</version>
++                        </path>
++                    </annotationProcessorPaths>
+                 </configuration>
+             </plugin>
+             <plugin>
+                 <groupId>org.openjfx</groupId>
+                 <artifactId>javafx-maven-plugin</artifactId>
+                 <version>0.0.8</version>
+-                <executions>
+-                    <execution>
+-                        <!-- Default configuration for running with: mvn clean javafx:run -->
+-                        <id>default-cli</id>
+-                        <configuration>
+-                            <mainClass>com.example.cherryrero/com.example.cherryrero.HelloApplication</mainClass>
+-                            <launcher>app</launcher>
+-                            <jlinkZipName>app</jlinkZipName>
+-                            <jlinkImageName>app</jlinkImageName>
+-                            <noManPages>true</noManPages>
+-                            <stripDebug>true</stripDebug>
+-                            <noHeaderFiles>true</noHeaderFiles>
+-                        </configuration>
+-                    </execution>
+-                </executions>
+-            </plugin>
+-            <plugin>
+-                <groupId>org.apache.maven.plugins</groupId>
+-                <artifactId>maven-compiler-plugin</artifactId>
+-                <configuration>
+-                    <annotationProcessorPaths>
+-                        <path>
+-                            <groupId>org.projectlombok</groupId>
+-                            <artifactId>lombok</artifactId>
+-                            <version>1.18.48</version>
+-                        </path>
+-                    </annotationProcessorPaths>
++                <configuration>
++                    <mainClass>com.example.cherryrero/com.example.cherryrero.HelloApplication</mainClass>
+                 </configuration>
+             </plugin>
+         </plugins>
+Index: src/main/java/resources/com/example/cherryrero/menu.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<?import javafx.scene.control.*?>\r\n\r\n<MenuBar xmlns:fx=\"http://javafx.com/fxml\"\r\n         fx:controller=\"com.example.cherryrero.MenuController\">\r\n    <menus>\r\n        <Menu text=\"Файл\">\r\n            <items>\r\n                <MenuItem fx:id=\"menuOpen\" text=\"Открыть...\" onAction=\"#onOpen\"/>\r\n                <MenuItem fx:id=\"menuSave\" text=\"Сохранить\" onAction=\"#onSave\"/>\r\n                <SeparatorMenuItem/>\r\n                <MenuItem fx:id=\"menuExit\" text=\"Выход\" onAction=\"#onExit\"/>\r\n            </items>\r\n        </Menu>\r\n        <Menu text=\"Правка\">\r\n            <items>\r\n                <MenuItem text=\"Логи...\" onAction=\"#onLogs\"/>\r\n            </items>\r\n        </Menu>\r\n        <Menu text=\"Справка\">\r\n            <items>\r\n                <MenuItem text=\"О программе\" onAction=\"#onAbout\"/>\r\n            </items>\r\n        </Menu>\r\n    </menus>\r\n</MenuBar>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/resources/com/example/cherryrero/menu.fxml b/src/main/java/resources/com/example/cherryrero/menu.fxml
+--- a/src/main/java/resources/com/example/cherryrero/menu.fxml	(revision a2d6045a6b7912b83188b344912e20ef88f5c674)
++++ b/src/main/java/resources/com/example/cherryrero/menu.fxml	(date 1795167837622)
+@@ -1,26 +1,3 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <?import javafx.scene.control.*?>
+ 
+-<MenuBar xmlns:fx="http://javafx.com/fxml"
+-         fx:controller="com.example.cherryrero.MenuController">
+-    <menus>
+-        <Menu text="Файл">
+-            <items>
+-                <MenuItem fx:id="menuOpen" text="Открыть..." onAction="#onOpen"/>
+-                <MenuItem fx:id="menuSave" text="Сохранить" onAction="#onSave"/>
+-                <SeparatorMenuItem/>
+-                <MenuItem fx:id="menuExit" text="Выход" onAction="#onExit"/>
+-            </items>
+-        </Menu>
+-        <Menu text="Правка">
+-            <items>
+-                <MenuItem text="Логи..." onAction="#onLogs"/>
+-            </items>
+-        </Menu>
+-        <Menu text="Справка">
+-            <items>
+-                <MenuItem text="О программе" onAction="#onAbout"/>
+-            </items>
+-        </Menu>
+-    </menus>
+-</MenuBar>
+\ No newline at end of file
