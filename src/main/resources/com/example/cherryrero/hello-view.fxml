@@ -1,54 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
-<SplitPane dividerPositions="0.6" xmlns:fx="http://javafx.com/fxml"
-           fx:controller="com.example.cherryrero.HelloController">
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
 
-    <VBox alignment="CENTER" spacing="20.0">
-        <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-        </padding>
-        <HBox alignment="CENTER_LEFT" spacing="10.0">
-            <TextField fx:id="urlLink"
-                       promptText="Укажите url радио"
-                       HBox.hgrow="ALWAYS"/>
-            <Button fx:id="playButton"
-                    text="▶"
-                    prefWidth="40.0"
-                    minWidth="40.0"
-                    maxWidth="40.0"
-                    onAction="#playAudio"/>
-        </HBox>
-        <StackPane fx:id="imageContainer"
-                   style="-fx-background-color: #e0e0e0; -fx-border-color: #999; -fx-border-width: 1;">
-            <ImageView fx:id="currentProduct" pickOnBounds="true" preserveRatio="true" fitHeight="200.0">
-                <Image url="@/cat.jpeg"/>
-            </ImageView>
-        </StackPane>
-        <Label fx:id="songTitle" text="Без названия - Неизвестен" style="-fx-text-fill: #000; -fx-font-size: 16px;"/>
-        <HBox alignment="CENTER" spacing="15.0">
-            <Button fx:id="pauseButton" text="⏸ Пауза" prefWidth="100.0" onAction="#pauseAudio"/>
-            <Button fx:id="nextButton" text="⏭ Следующее" prefWidth="120.0" onAction="#nextAudio"/>
-        </HBox>
-    </VBox>
+<BorderPane xmlns:fx="http://javafx.com"
+            fx:controller="com.example.cherryrero.HelloController">
 
-    <VBox spacing="10.0">
-        <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-        </padding>
-        <Label text="Плейлист"/>
-        <TextArea fx:id="infoArea" VBox.vgrow="ALWAYS" editable="false" wrapText="true"/>
-    </VBox>
+    <!-- ВЕРХНЕЕ МЕНЮ (как в Блокноте) -->
+    <top>
+        <MenuBar>
+            <Menu text="Файл">
+                <MenuItem text="Указать путь к папке с музыкой..." onAction="#chooseFolder"/>
+                <MenuItem text="Просмотреть логи" onAction="#openLogsWindow"/>
+            </Menu>
+            <Menu text="Вид">
+                <CheckMenuItem fx:id="showLogsCheckItem" text="Отображать логи в приложении" onAction="#toggleLogsPanel"/>
+            </Menu>
+        </MenuBar>
+    </top>
 
-</SplitPane>
+    <!-- ЦЕНТРАЛЬНАЯ ЧАСТЬ: Ваш плеер (радио + плейлист) -->
+    <center>
+        <SplitPane dividerPositions="0.6">
+            <VBox alignment="CENTER" spacing="20.0">
+                <padding>
+                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                </padding>
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <TextField fx:id="urlLink"
+                               promptText="Укажите url радио"
+                               HBox.hgrow="ALWAYS"/>
+                    <Button fx:id="playButton"
+                            text="▶"
+                            prefWidth="40.0"
+                            minWidth="40.0"
+                            maxWidth="40.0"
+                            onAction="#playAudio"/>
+                </HBox>
+                <StackPane fx:id="imageContainer"
+                           style="-fx-background-color: #e0e0e0; -fx-border-color: #999; -fx-border-width: 1;">
+                    <ImageView fx:id="currentProduct" pickOnBounds="true" preserveRatio="true" fitHeight="200.0">
+                        <Image url="@/cat.jpeg"/>
+                    </ImageView>
+                </StackPane>
+                <Label fx:id="songTitle" text="Без названия - Неизвестен" style="-fx-text-fill: #000; -fx-font-size: 16px;"/>
+                <HBox alignment="CENTER" spacing="15.0">
+                    <Button fx:id="pauseButton" text="⏸ Пауза" prefWidth="100.0" onAction="#pauseAudio"/>
+                    <Button fx:id="nextButton" text="⏭ Следующее" prefWidth="120.0" onAction="#nextAudio"/>
+                </HBox>
+            </VBox>
+
+            <VBox spacing="10.0">
+                <padding>
+                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                </padding>
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <Label text="Плейлист" style="-fx-font-weight: bold; -fx-font-size: 14px;" HBox.hgrow="ALWAYS"/>
+                    <Button text="📁 Папка" onAction="#chooseFolder"/>
+                </HBox>
+                <Label fx:id="folderPathLabel" text="Папка не выбрана" style="-fx-font-size: 11px; -fx-text-fill: #666;" wrapText="true"/>
+                <ListView fx:id="playlistView" VBox.vgrow="ALWAYS" onMouseClicked="#onTrackSelected"/>
+            </VBox>
+        </SplitPane>
+    </center>
+
+    <!-- НИЖНЯЯ ПАНЕЛЬ ЛОГОВ (скрыта, пока не включена в меню Вид) -->
+    <bottom>
+        <VBox fx:id="logPanel" visible="false" managed="false" spacing="5.0" style="-fx-background-color: #f4f4f4; -fx-border-color: #ccc; -fx-border-width: 1 0 0 0;">
+            <padding>
+                <Insets bottom="10.0" left="15.0" right="15.0" top="8.0"/>
+            </padding>
+            <Label text="Журнал событий (логи):" style="-fx-font-weight: bold; -fx-font-size: 12px;"/>
+            <TextArea fx:id="logArea" prefHeight="100.0" editable="false" wrapText="true" style="-fx-font-family: 'Consolas', monospace; -fx-font-size: 11px;"/>
+        </VBox>
+    </bottom>
+
+</BorderPane>
