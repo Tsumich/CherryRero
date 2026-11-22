@@ -1,0 +1,116 @@
+/* dark.css — тёмно-голубая тема */
+.root {
+    -fx-base: #1e2a38;
+    -fx-background: #0f1a24;
+    -fx-control-inner-background: #243447;
+    -fx-text-fill: #e0e8f0;
+    -fx-accent: #4a9eff;
+    -fx-focus-color: #4a9eff;
+    -fx-faint-focus-color: #4a9eff22;
+}
+
+.player-panel {
+    -fx-background-color: #0f1a24;
+}
+
+.tabs-panel {
+    -fx-background-color: #14212e;
+}
+
+.playlist-box {
+    -fx-background-color: #1a2a3a;
+}
+
+.section-title {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-text-fill: #e0e8f0;
+}
+
+.song-title {
+    -fx-text-fill: #e0e8f0;
+    -fx-font-size: 16px;
+}
+
+.log-panel {
+    -fx-background-color: #14212e;
+    -fx-border-color: #2a3f55;
+    -fx-border-width: 1 0 0 0;
+}
+
+.hint-text {
+    -fx-font-size: 12px;
+    -fx-text-fill: #8aa4bd;
+}
+
+.list-view {
+    -fx-background-color: #243447;
+    -fx-control-inner-background: #243447;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e0e8f0;
+}
+
+.list-cell:filled:selected {
+    -fx-background-color: #2f5d8a;
+    -fx-text-fill: #ffffff;
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #1f3348;
+}
+
+.tab-pane .tab {
+    -fx-background-color: #1a2a3a;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: #243447;
+}
+
+.tab-pane .tab .tab-label {
+    -fx-text-fill: #c0d0e0;
+}
+
+.tab-pane .tab:selected .tab-label {
+    -fx-text-fill: #ffffff;
+}
+
+.text-area {
+    -fx-control-inner-background: #1a2a3a;
+    -fx-text-fill: #e0e8f0;
+    -fx-highlight-fill: #2f5d8a;
+    -fx-highlight-text-fill: #ffffff;
+}
+
+.menu-bar {
+    -fx-background-color: #14212e;
+}
+
+.menu-bar .label {
+    -fx-text-fill: #e0e8f0;
+}
+
+.context-menu,
+.menu-item {
+    -fx-background-color: #1a2a3a;
+}
+
+.menu-item .label {
+    -fx-text-fill: #e0e8f0;
+}
+
+.menu-item:focused {
+    -fx-background-color: #2f5d8a;
+}
+
+.song-title {
+    -fx-text-fill: white;
+}
+
+.cur_directory{
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}

@@ -1,0 +1,113 @@
+/* light.css — светло-жёлтая тема */
+.root {
+    -fx-base: #fff8e1;                       /* общий тёплый тон контролов */
+    -fx-background: #fdf6d8;                 /* фон окна */
+    -fx-control-inner-background: #ffffff;   /* фон полей ввода/списков */
+    -fx-text-fill: #3a3320;                  /* основной текст (тёплый тёмно-коричневый) */
+    -fx-accent: #e6b422;                     /* акцент (выделение, фокус) — золотистый */
+    -fx-focus-color: #e6b422;
+    -fx-faint-focus-color: #e6b42222;
+}
+
+.player-panel {
+    -fx-background-color: #fdf6d8;
+}
+
+.tabs-panel {
+    -fx-background-color: #f7ecc0;
+}
+
+.playlist-box {
+    -fx-background-color: #fffbe8;
+}
+
+.section-title {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-text-fill: #3a3320;
+}
+
+.song-title {
+    -fx-text-fill: #3a3320;
+    -fx-font-size: 16px;
+}
+
+.log-panel {
+    -fx-background-color: #fffbe8;
+    -fx-border-color: #e0d49a;
+    -fx-border-width: 1 0 0 0;
+}
+
+.hint-text {
+    -fx-font-size: 12px;
+    -fx-text-fill: #8a7f5c;
+}
+
+/* Мелочи для читаемости стандартных контролов */
+.list-view {
+    -fx-background-color: #ffffff;
+    -fx-control-inner-background: #ffffff;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #3a3320;
+}
+
+.list-cell:filled:selected {
+    -fx-background-color: #f2d675;
+    -fx-text-fill: #3a3320;
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #fff3c4;
+}
+
+.tab-pane .tab {
+    -fx-background-color: #f7ecc0;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: #fffbe8;
+}
+
+.tab-pane .tab .tab-label {
+    -fx-text-fill: #6b6242;
+}
+
+.tab-pane .tab:selected .tab-label {
+    -fx-text-fill: #3a3320;
+}
+
+.text-area {
+    -fx-control-inner-background: #fffbe8;
+    -fx-text-fill: #3a3320;
+    -fx-highlight-fill: #f2d675;
+    -fx-highlight-text-fill: #3a3320;
+}
+
+.menu-bar {
+    -fx-background-color: #f7ecc0;
+}
+
+.menu-bar .label {
+    -fx-text-fill: #3a3320;
+}
+
+.context-menu,
+.menu-item {
+    -fx-background-color: #fffbe8;
+}
+
+.menu-item .label {
+    -fx-text-fill: #3a3320;
+}
+
+.menu-item:focused {
+    -fx-background-color: #f2d675;
+}
+
+.cur_directory{
+    -fx-text-fill: #000000;
+    -fx-font-size: 12px;
+}

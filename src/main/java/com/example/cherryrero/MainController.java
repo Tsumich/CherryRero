@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
@@ -17,17 +18,35 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class MainController {
     public Label songTitle;
     public Button playButton;
 
+    private static final String LIGHT_THEME = "/styles/light.css";
+    private static final String DARK_THEME  = "/styles/dark.css";
+    private String currentTheme;
+    @FXML private BorderPane rootPane;
+
+
     @FXML private ImageView currentProduct;
     @FXML private ComboBox<String> urlLink;
 
     private RotateTransition spin;
     private final RadioPlayer radioPlayer;
+
+    @FXML private CheckMenuItem showCheckLightTheme;
+
+    @FXML
+    protected void toggleTheme() {
+        boolean light = showCheckLightTheme.isSelected();
+        currentTheme = light ? "light" : "dark";
+        applyTheme(!light);
+        PropertiesReader.writeToProperties("player_config.properties", "theme", currentTheme);
+        System.out.println("Тема: " + currentTheme);
+    }
 
     // ---- СОСТОЯНИЕ МУЗЫКИ ------
     private enum PlayState {PLAYING_RADIO, PLAYING_LOCAL }
@@ -51,9 +70,18 @@ public class MainController {
     }
 
     @FXML
-    public void initialize() {
+    public void initialize() throws IOException {
+
+        currentTheme = PropertiesReader.readFromProperties("player_config.properties", "theme");
+        if (currentTheme == null) currentTheme = "light";
+        System.out.println("theme : " + currentTheme);
+        applyTheme("dark".equalsIgnoreCase(currentTheme));
         LocalMusicPlayer.setLogArea(logArea);
         String savedPath = localPlayer.loadSavedFolderPath();
+
+        boolean light = "light".equalsIgnoreCase(currentTheme);
+        System.out.println("theme : " + light);
+        showCheckLightTheme.setSelected(light);
         if (savedPath != null) {
             File folder = new File(savedPath);
             if (folder.exists() && folder.isDirectory()) {
@@ -61,7 +89,7 @@ public class MainController {
             }
         }
 
-        // Настройка анимации
+        // Настройка анимации картинки
         double radius = 100.0;
         currentProduct.setClip(new Circle(radius, radius, radius));
         spin = new RotateTransition(Duration.seconds(10), currentProduct);
@@ -79,12 +107,59 @@ public class MainController {
     }
 
     @FXML
+    public void changeTheme(ActionEvent actionEvent) {
+        boolean dark = !"dark".equalsIgnoreCase(currentTheme);
+        currentTheme = dark ? "dark" : "light";
+        applyTheme(dark);
+        PropertiesReader.writeToProperties("player_config.properties", "theme", currentTheme);
+        System.out.println("Тема изменена на: " + currentTheme);
+    }
+
+    private void applyTheme(boolean dark) {
+        rootPane.getStylesheets().clear();
+        var url = getClass().getResource(dark ? DARK_THEME : LIGHT_THEME);
+        if (url == null) {
+            System.err.println("CSS не найден: " + (dark ? DARK_THEME : LIGHT_THEME));
+            return;
+        }
+        rootPane.getStylesheets().add(url.toExternalForm());
+    }
+
+
+
+    private void updatePlaylist(File folder) {
+        folderPathLabel.setText("Папка: " + folder.getName());
+        playlistView.getItems().clear();
+        try {
+            List<File> songs = localPlayer.loadFolder(folder);
+            for (File song : songs) {
+                playlistView.getItems().add(song.getName());
+            }
+        } catch (LocalAudioException e) {
+            folderPathLabel.setText(e.getMessage());
+            songTitle.setText("MP3 файлы не найдены");
+        }
+    }
+
+    @FXML
     protected void toggleLogsPanel() {
         boolean show = showLogsCheckItem.isSelected();
         logPanel.setVisible(show);
         logPanel.setManaged(show);
         if (logPanel.getScene() != null && logPanel.getScene().getWindow() != null) {
             logPanel.getScene().getWindow().sizeToScene();
+        }
+    }
+
+    @FXML
+    protected void chooseFolder() {
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Выберите папку с музыкой (.mp3)");
+        File selectedDir = chooser.showDialog(playlistView.getScene().getWindow());
+
+        if (selectedDir != null) {
+            localPlayer.saveFolderPath(selectedDir.getAbsolutePath());
+            updatePlaylist(selectedDir);
         }
     }
 
@@ -107,32 +182,6 @@ public class MainController {
 
         logStage.setScene(new Scene(root, 550, 400));
         logStage.show();
-    }
-
-    @FXML
-    protected void chooseFolder() {
-        DirectoryChooser chooser = new DirectoryChooser();
-        chooser.setTitle("Выберите папку с музыкой (.mp3)");
-        File selectedDir = chooser.showDialog(playlistView.getScene().getWindow());
-
-        if (selectedDir != null) {
-            localPlayer.saveFolderPath(selectedDir.getAbsolutePath());
-            updatePlaylist(selectedDir);
-        }
-    }
-
-    private void updatePlaylist(File folder) {
-        folderPathLabel.setText("Папка: " + folder.getName());
-        playlistView.getItems().clear();
-        try {
-            List<File> songs = localPlayer.loadFolder(folder);
-            for (File song : songs) {
-                playlistView.getItems().add(song.getName());
-            }
-        } catch (LocalAudioException e) {
-            folderPathLabel.setText(e.getMessage());
-            songTitle.setText("MP3 файлы не найдены");
-        }
     }
 
     @FXML
@@ -187,7 +236,6 @@ public class MainController {
 
     public void pauseAudio() throws LocalAudioException {
         is_playing = !is_playing;
-        System.out.println("pauseAudio: " + is_playing);
         if(!is_playing){
             if (currentState == PlayState.PLAYING_RADIO) {
                 radioPlayer.setOldRadioUrl(null);
@@ -199,7 +247,6 @@ public class MainController {
             spin.pause();
         }
         else {
-            System.out.println("unpauseAudio - else");
             playAudio();
         }
     }
@@ -224,5 +271,8 @@ public class MainController {
         playAudio();
     }
 }
+
+
+
 
 //http://109.196.197.6:8010/DFM-anapa
