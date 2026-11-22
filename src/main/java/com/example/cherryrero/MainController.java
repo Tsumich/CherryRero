@@ -44,7 +44,7 @@ public class MainController {
         boolean light = showCheckLightTheme.isSelected();
         currentTheme = light ? "light" : "dark";
         applyTheme(!light);
-        PropertiesReader.writeToProperties("player_config.properties", "theme", currentTheme);
+        PropertiesReader.writeToProperties("theme", currentTheme);
         System.out.println("Тема: " + currentTheme);
     }
 
@@ -72,7 +72,7 @@ public class MainController {
     @FXML
     public void initialize() throws IOException {
 
-        currentTheme = PropertiesReader.readFromProperties("player_config.properties", "theme");
+        currentTheme = PropertiesReader.readFromProperties("theme");
         if (currentTheme == null) currentTheme = "light";
         System.out.println("theme : " + currentTheme);
         applyTheme("dark".equalsIgnoreCase(currentTheme));
@@ -111,7 +111,7 @@ public class MainController {
         boolean dark = !"dark".equalsIgnoreCase(currentTheme);
         currentTheme = dark ? "dark" : "light";
         applyTheme(dark);
-        PropertiesReader.writeToProperties("player_config.properties", "theme", currentTheme);
+        PropertiesReader.writeToProperties("theme", currentTheme);
         System.out.println("Тема изменена на: " + currentTheme);
     }
 

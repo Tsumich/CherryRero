@@ -12,6 +12,7 @@
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/21.0.13.1/javafx-fxml-21.0.13.1-win.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/javazoom/jlayer/1.0.1/jlayer-1.0.1.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-controls/21.0.13.1/javafx-controls-21.0.13.1.jar" path-in-jar="/" />
+      <element id="file-copy" path="$PROJECT_DIR$/player_config.properties" />
     </root>
   </artifact>
 </component>

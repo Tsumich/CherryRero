@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextArea;
 import javazoom.jl.player.Player;
+import lombok.Getter;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -17,14 +18,16 @@ import java.util.logging.*;
 
 public class LocalMusicPlayer {
     private static final String CONFIG_FILE = "player_config.properties";
-    private static final String FOLDER_KEY = "last_music_folder";
     private static final String LOG_FILE = "player_errors.log";
+    private static final String FOLDER_KEY = "last_music_folder";
+
     private static final Logger logger = Logger.getLogger(LocalMusicPlayer.class.getName());
     private static final DateTimeFormatter TIME_FMT = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     private Player jlayerPlayer;
     private Thread playThread;
     private List<File> playlist = new ArrayList<>();
+    @Getter
     private int currentIndex = -1;
 
     // ссылка на тесктовое поле логов внизу окна
@@ -80,33 +83,19 @@ public class LocalMusicPlayer {
     }
 
     public void saveFolderPath(String path) {
-        Properties props = new Properties();
-        props.setProperty(FOLDER_KEY, path);
-        try (FileOutputStream out = new FileOutputStream(CONFIG_FILE)) {
-            props.store(out, "CherryRero Saved Folder");
-            logAction("Выбрана и сохранена папка: " + path);
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "Ошибка при сохранении пути к папке: " + path, e);
-            logAction("ОШИБКА сохранения пути к папке!");
-        }
+        PropertiesReader.writeToProperties(FOLDER_KEY, path);
+        logAction("Выбрана и сохранена папка: " + path);
     }
 
     public String loadSavedFolderPath() {
-        File file = new File(CONFIG_FILE);
-        if (!file.exists()) {
+        String savedPath = PropertiesReader.readFromProperties(FOLDER_KEY);
+
+        if (savedPath == null || savedPath.isEmpty()) {
             return null;
         }
-        Properties props = new Properties();
-        try (FileInputStream in = new FileInputStream(file)) {
-            props.load(in);
-            String savedPath = props.getProperty(FOLDER_KEY);
-            logAction("Загружен сохраненный путь: " + savedPath);
-            return savedPath;
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "Ошибка чтения файла настроек", e);
-            logAction("ОШИБКА чтения файла настроек!");
-            return null;
-        }
+
+        logAction("Загружен сохраненный путь: " + savedPath);
+        return savedPath;
     }
 
     public List<File> loadFolder(File folder) throws LocalAudioException {
@@ -154,10 +143,6 @@ public class LocalMusicPlayer {
         int nextIndex = (currentIndex + 1) % playlist.size();
         logAction("Переключение на следующий трек");
         return playTrackAt(nextIndex);
-    }
-
-    public int getCurrentIndex() {
-        return currentIndex;
     }
 
     private void playFile(File file) throws LocalAudioException {
